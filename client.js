@@ -426,8 +426,84 @@ function updateDiscardPile(discardPile) {
 function createCard(card) {
     const cardDiv = document.createElement('div');
     cardDiv.classList.add('card');
-    cardDiv.style.backgroundColor = card.color || 'black';
-    cardDiv.textContent = card.type;
+    
+    // Set data attributes for CSS styling
+    cardDiv.setAttribute('data-color', card.color || 'black');
+    cardDiv.setAttribute('data-type', card.type);
+    
+    // Create card content structure
+    const cardContent = document.createElement('div');
+    cardContent.classList.add('card-content');
+    
+    // Determine card display values
+    let cornerNumber, cornerSymbol, centerContent;
+    
+    if (card.type === 'wild') {
+        cornerNumber = 'W';
+        cornerSymbol = '★';
+        centerContent = 'W';
+    } else if (card.type === 'wild4') {
+        cornerNumber = '+4';
+        cornerSymbol = '★';
+        centerContent = '+4';
+    } else if (card.type === 'draw2') {
+        cornerNumber = '+2';
+        cornerSymbol = '2';
+        centerContent = '+2';
+    } else if (card.type === 'skip') {
+        cornerNumber = 'Ø';
+        cornerSymbol = 'Ø';
+        centerContent = 'Ø';
+    } else if (card.type === 'reverse') {
+        cornerNumber = '⇄';
+        cornerSymbol = '⇄';
+        centerContent = '⇄';
+    } else {
+        cornerNumber = card.type.toUpperCase();
+        cornerSymbol = card.type.toUpperCase();
+        centerContent = card.type.toUpperCase();
+    }
+    
+    // Create top-left corner
+    const topLeftCorner = document.createElement('div');
+    topLeftCorner.classList.add('card-corner', 'top-left');
+    
+    const topLeftNumber = document.createElement('div');
+    topLeftNumber.classList.add('card-corner-number');
+    topLeftNumber.textContent = cornerNumber;
+    
+    topLeftCorner.appendChild(topLeftNumber);
+    
+    // Create bottom-right corner
+    const bottomRightCorner = document.createElement('div');
+    bottomRightCorner.classList.add('card-corner', 'bottom-right');
+    
+    const bottomRightNumber = document.createElement('div');
+    bottomRightNumber.classList.add('card-corner-number');
+    bottomRightNumber.textContent = cornerNumber;
+    
+    bottomRightCorner.appendChild(bottomRightNumber);
+    
+    // Create center ellipse
+    const cardCenter = document.createElement('div');
+    cardCenter.classList.add('card-center');
+    
+    const cardCenterContent = document.createElement('div');
+    cardCenterContent.classList.add('card-center-content');
+    
+    const centerElement = document.createElement('div');
+    centerElement.classList.add('card-center-number');
+    centerElement.textContent = centerContent;
+    
+    cardCenterContent.appendChild(centerElement);
+    cardCenter.appendChild(cardCenterContent);
+    
+    // Assemble the card
+    cardContent.appendChild(topLeftCorner);
+    cardContent.appendChild(bottomRightCorner);
+    cardContent.appendChild(cardCenter);
+    cardDiv.appendChild(cardContent);
+    
     return cardDiv;
 }
 

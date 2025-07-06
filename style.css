@@ -358,40 +358,234 @@ h1 {
 #player-hand {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 15px;
     justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    min-height: 120px;
+    align-items: flex-end;
+    margin-top: 25px;
+    padding: 25px;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-radius: 20px;
+    min-height: 200px;
+    box-shadow: 
+        inset 0 2px 4px rgba(0,0,0,0.1),
+        0 4px 8px rgba(0,0,0,0.05);
+    position: relative;
+}
+
+#player-hand::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(0,0,0,0.05) 100%);
+    border-radius: 20px;
+    pointer-events: none;
 }
 
 .card {
     width: 100px;
     height: 150px;
-    border: 2px solid #333;
-    border-radius: 10px;
+    border: 2px solid white;
+    border-radius: 16px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 20px;
+    font-weight: 700;
     color: white;
-    text-shadow: 1px 1px 2px black;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+        0 4px 8px rgba(0,0,0,0.1),
+        0 8px 16px rgba(0,0,0,0.1),
+        inset 0 1px 0 rgba(255,255,255,0.1),
+        0 0 0 1px rgba(0,0,0,0.1);
+    background: linear-gradient(135deg, var(--card-color-light) 0%, var(--card-color-dark) 100%);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(0,0,0,0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover::before {
+    opacity: 1;
 }
 
 .card:hover {
-    transform: scale(1.05);
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 
+        0 8px 16px rgba(0,0,0,0.15),
+        0 16px 32px rgba(0,0,0,0.15),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+.card:active {
+    transform: translateY(-4px) scale(1.02);
+    transition: all 0.1s ease;
 }
 
 .card.selected {
-    border-color: #28a745;
-    border-width: 4px;
-    transform: translateY(-10px);
+    border: 3px solid #ffd700;
+    transform: translateY(-12px) scale(1.08);
+    box-shadow: 
+        0 12px 24px rgba(255,215,0,0.3),
+        0 20px 40px rgba(0,0,0,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+    animation: selectedGlow 2s infinite;
+}
+
+@keyframes selectedGlow {
+    0%, 100% { 
+        box-shadow: 
+            0 12px 24px rgba(255,215,0,0.3),
+            0 20px 40px rgba(0,0,0,0.2),
+            inset 0 1px 0 rgba(255,255,255,0.3);
+    }
+    50% { 
+        box-shadow: 
+            0 12px 24px rgba(255,215,0,0.5),
+            0 20px 40px rgba(0,0,0,0.3),
+            inset 0 1px 0 rgba(255,255,255,0.4);
+    }
+}
+
+/* Card color variables - set dynamically via JavaScript */
+.card[data-color="red"] {
+    --card-color-light: #ff6b6b;
+    --card-color-dark: #e74c3c;
+}
+
+.card[data-color="blue"] {
+    --card-color-light: #4ecdc4;
+    --card-color-dark: #3498db;
+}
+
+.card[data-color="green"] {
+    --card-color-light: #2ecc71;
+    --card-color-dark: #27ae60;
+}
+
+.card[data-color="yellow"] {
+    --card-color-light: #f1c40f;
+    --card-color-dark: #f39c12;
+}
+
+.card[data-color="black"], .card[data-type="wild"], .card[data-type="wild4"] {
+    --card-color-light: #2c3e50;
+    --card-color-dark: #1a252f;
+    background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+}
+
+/* Special wild card styling */
+.card[data-type="wild"], .card[data-type="wild4"] {
+    background: linear-gradient(135deg, 
+        #ff6b6b 25%, 
+        #4ecdc4 45%, 
+        #2ecc71 70%, 
+        #f1c40f 90%, 
+        #ff6b6b 100%);
+    background-size: 200% 200%;
+    animation: wildCardShimmer 3s ease-in-out infinite;
+}
+
+.card[data-type="wild"] .card-center-content,
+.card[data-type="wild4"] .card-center-content {
+    color: #2c3e50;
+}
+
+@keyframes wildCardShimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* Card content styling */
+.card-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Corner numbers/symbols */
+.card-corner {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 800;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    padding: 2px 4px;
+    backdrop-filter: blur(1px);
+    min-width: 12px;
+    min-height: 12px;
+}
+
+.card-corner.top-left {
+    top: 6px;
+    left: 6px;
+}
+
+.card-corner.bottom-right {
+    bottom: 6px;
+    right: 6px;
+    transform: rotate(180deg);
+}
+
+.card-corner-number {
+    font-size: 16px;
+    line-height: 1;
+    margin: 0;
+}
+
+/* Center ellipse */
+.card-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-50deg);
+    width: 100px;
+    height: 55px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 
+        0 3px 6px rgba(0,0,0,0.2),
+        inset 0 1px 3px rgba(0,0,0,0.1);
+    border: 2px solid rgba(255,255,255,0.9);
+}
+
+.card-center-content {
+    transform: rotate(50deg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--card-color-dark);
+    text-shadow: none;
+}
+
+.card-center-number {
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1;
+    margin: 0;
 }
 
 .player {
@@ -421,32 +615,49 @@ h1 {
 
 /* Multiple card selection buttons */
 .play-multiple-btn, .cancel-selection-btn {
-    margin: 10px 5px;
-    padding: 8px 16px;
+    margin: 15px 8px 0 8px;
+    padding: 12px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 12px;
     cursor: pointer;
     font-size: 14px;
-    font-weight: bold;
-    transition: background-color 0.3s;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: inherit;
+    position: relative;
+    overflow: hidden;
 }
 
 .play-multiple-btn {
-    background-color: #4CAF50;
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
     color: white;
+    box-shadow: 0 4px 8px rgba(72, 187, 120, 0.3);
 }
 
 .play-multiple-btn:hover {
-    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(72, 187, 120, 0.4);
+}
+
+.play-multiple-btn:active {
+    transform: translateY(0);
 }
 
 .cancel-selection-btn {
-    background-color: #f44336;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
     color: white;
+    box-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
 }
 
 .cancel-selection-btn:hover {
-    background-color: #da190b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(255, 107, 107, 0.4);
+}
+
+.cancel-selection-btn:active {
+    transform: translateY(0);
 }
 
 /* Opponent Hands */
@@ -508,15 +719,36 @@ h1 {
 /* Discard Pile */
 #discard-pile {
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    border: 2px solid #e2e8f0;
-    border-radius: 15px;
-    padding: 20px;
-    min-width: 120px;
-    min-height: 160px;
+    border: none;
+    border-radius: 20px;
+    padding: 25px;
+    min-width: 130px;
+    min-height: 180px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 
+        inset 0 2px 4px rgba(0,0,0,0.1),
+        0 8px 16px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+#discard-pile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(0,0,0,0.05) 100%);
+    border-radius: 20px;
+    pointer-events: none;
+}
+
+#discard-pile .card {
+    position: relative;
+    z-index: 1;
 }
 
 /* Leave Lobby Button */
