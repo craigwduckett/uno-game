@@ -303,16 +303,7 @@ h1 {
     box-shadow: 0 12px 25px rgba(102, 126, 234, 0.4);
 }
 
-#callout-button {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-    color: white;
-    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
-}
 
-#callout-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 25px rgba(255, 107, 107, 0.4);
-}
 
 /* Wild Color Picker */
 #wild-color-picker {

@@ -9,7 +9,7 @@ const opponentHandsDiv = document.getElementById('opponent-hands');
 const playerHandDiv = document.getElementById('player-hand');
 const discardPileDiv = document.getElementById('discard-pile');
 const drawCardButton = document.getElementById('draw-card');
-const calloutButton = document.getElementById('callout-button');
+
 const turnIndicator = document.getElementById('turn-indicator');
 const turnText = document.getElementById('turn-text');
 const wildColorPicker = document.getElementById('wild-color-picker');

@@ -43,7 +43,6 @@ A modern, real-time multiplayer UNO card game built with WebSockets, featuring b
 - **Reverse and Skip cards** with proper turn management
 - **Wild card color selection** with visual feedback
 - **Automatic card validation** and move checking
-- **Callout system** for players who forget to say UNO
 
 ## 🚀 Getting Started
 
@@ -107,8 +106,8 @@ Be the first player to get rid of all your cards!
 3. **Drawing**: If you can't play, draw a card from the deck
 4. **UNO**: Automatically announced when you have 1 card left
 5. **Multiple Cards**: You can play multiple cards of the same number in one turn
-6. **Callout**: Call out players who have 1 card but didn't get auto-UNO
-7. **Winning**: First player to play all cards wins!
+
+6. **Winning**: First player to play all cards wins!
 
 ### 🔄 Special Card Effects
 
@@ -181,7 +180,7 @@ Run tests with: `pnpm test:run`
 { action: 'play', card: { color: 'red', type: '5' } }
 { action: 'play_multiple', cards: [...], indices: [...] }
 { action: 'draw' }
-{ action: 'callout' }
+
 { action: 'leave' }
 ```
 

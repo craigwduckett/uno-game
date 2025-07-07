@@ -377,18 +377,7 @@ function handleUno(lobbyId, playerId) {
     }
 }
 
-function handleCallout(lobbyId, callerId) {
-    const lobby = lobbies.get(lobbyId);
-    if (!lobby) return;
-    
-    const previousPlayerIndex = (lobby.game.turn - lobby.game.direction + lobby.players.length) % lobby.players.length;
-    const previousPlayer = lobby.players[previousPlayerIndex];
 
-    if (previousPlayer.hand.length === 1 && !previousPlayer.uno) {
-        previousPlayer.hand.push(...lobby.game.deck.splice(0, 2));
-        broadcastGameUpdate(lobbyId);
-    }
-}
 
 function uuidv4() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -456,9 +445,7 @@ wss.on('connection', (ws) => {
             handleUno(metadata.lobbyId, metadata.id);
         }
 
-        if (message.action === 'callout') {
-            handleCallout(metadata.lobbyId, metadata.id);
-        }
+
 
         if (message.action === 'play_multiple') {
             handlePlayMultiple(metadata.lobbyId, metadata.id, message.cards);

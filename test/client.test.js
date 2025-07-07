@@ -104,9 +104,6 @@ describe('UNO Client', () => {
   it('should have game control buttons', () => {
     const drawButton = dom.window.document.getElementById('draw-card')
     expect(drawButton).toBeTruthy()
-    
-    const calloutButton = dom.window.document.getElementById('callout-button')
-    expect(calloutButton).toBeTruthy()
   })
 
   it('should not have UNO button (auto UNO feature)', () => {
